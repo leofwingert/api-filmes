@@ -107,3 +107,16 @@ export const updateMovie = async (req: Request, res: Response) => {
         res.status(500).json({ error: "Failed to update movie" });
     }
 }
+
+export const getReviews = async (req: Request, res: Response) => {
+    try {
+        const { id } = req.params;
+        const reviews = await prisma.review.findMany({
+            where: { movieId: Number(id) },
+        });
+        res.status(200).json(reviews);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: "Failed to fetch reviews" });
+    }
+}
